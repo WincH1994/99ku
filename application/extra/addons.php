@@ -7,6 +7,7 @@ return array (
     'app_init' => 
     array (
       0 => 'cms',
+      1 => 'log',
     ),
     'view_filter' => 
     array (
@@ -24,6 +25,10 @@ return array (
     array (
       0 => 'cms',
     ),
+    'admin_login_init' => 
+    array (
+      0 => 'loginbg',
+    ),
     'config_init' => 
     array (
       0 => 'nkeditor',
@@ -40,6 +45,10 @@ return array (
     '/a/[:diyname]$' => 'cms/archives/index',
     '/c/[:diyname]$' => 'cms/channel/index',
     '/u/[:id]' => 'cms/user/index',
+    '/example$' => 'example/index/index',
+    '/example/d/[:name]' => 'example/demo/index',
+    '/example/d1/[:name]' => 'example/demo/demo1',
+    '/example/d2/[:name]' => 'example/demo/demo2',
   ),
   'priority' => 
   array (

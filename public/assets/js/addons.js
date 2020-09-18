@@ -24,6 +24,19 @@ define([], function () {
 
 require.config({
     paths: {
+        'async': '../addons/example/js/async',
+        'BMap': ['//api.map.baidu.com/api?v=2.0&ak=mXijumfojHnAaN2VxpBGoqHM'],
+    },
+    shim: {
+        'BMap': {
+            deps: ['jquery'],
+            exports: 'BMap'
+        }
+    }
+});
+
+require.config({
+    paths: {
         'nkeditor': '../addons/nkeditor/js/customplugin',
         'nkeditor-core': '../addons/nkeditor/nkeditor.min',
         'nkeditor-lang': '../addons/nkeditor/lang/zh-CN',
