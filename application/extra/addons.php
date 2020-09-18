@@ -25,10 +25,6 @@ return array (
     array (
       0 => 'cms',
     ),
-    'admin_login_init' => 
-    array (
-      0 => 'loginbg',
-    ),
     'config_init' => 
     array (
       0 => 'nkeditor',

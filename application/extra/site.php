@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  'name' => '我的网站',
+  'name' => '99设计资源库',
   'beian' => '',
   'cdnurl' => '',
   'version' => '1.0.1',

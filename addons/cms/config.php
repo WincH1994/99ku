@@ -24,7 +24,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => '我的CMS网站',
+    'value' => '99设计资源库',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
