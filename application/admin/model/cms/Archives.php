@@ -178,7 +178,7 @@ class Archives extends Model
 
     public function getStatusList()
     {
-        return ['normal' => __('Normal'), 'hidden' => __('Hidden'), 'rejected' => __('Status rejected'), 'pulloff' => __('Status pulloff')];
+        return ['normal' => __('Status Normal'), 'hidden' => __('Status Hidden'), 'rejected' => __('Status rejected'), 'pulloff' => __('Status pulloff')];
     }
 
     public function getStyleBoldAttr($value, $data)

@@ -6,6 +6,7 @@ use addons\cms\library\aip\AipContentCensor;
 use addons\cms\library\SensitiveHelper;
 use addons\cms\library\Service;
 use app\common\controller\Backend;
+use fast\Http;
 
 /**
  * Ajax
@@ -139,5 +140,44 @@ class Ajax extends Backend
         } else {
             $this->error(__('Parameter %s can not be empty', 'name'));
         }
+    }
+
+    /**
+     * 下载远程图片到本地
+     * @throws \Exception
+     */
+    public function localize_image()
+    {
+        $txt = $this->request->post("content");
+        $keywords = 'http://w.99ku.vip/';
+        $matches = array();
+        preg_match_all('/<img.+?src=(.+?)\s/is',$txt,$matches);
+        if(!is_array($matches)) return $txt;
+
+        foreach ($matches[1] as $k => $v)
+        {
+            $url = trim($v,"\"'");
+            $ext = '';
+
+            if(strpos($url,$keywords) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
+            {
+                $ext = pathinfo($url)['extension'];
+                $data = Http::get($url);
+                if($data){
+                    $file_path = './uploads/' . date('Ymd').'/';
+                    if (!is_dir($file_path)) {
+                        @mkdir($file_path, 0755, true);
+                    }
+                    $file = './uploads/' . date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
+                    $path = file_put_contents($file,$data);
+                    if($path){
+                        $file = substr($file,1,strlen($txt));
+                        $file = "http://w.99ku.vip".$file;
+                        $txt = str_replace($v,'"' . $file . '"',$txt);
+                    }
+                }
+            }
+        }
+        $this->success("图片本地化成功", null, $txt);
     }
 }

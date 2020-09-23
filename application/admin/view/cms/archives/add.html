@@ -90,17 +90,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="c-diyname" class="control-label col-xs-12 col-sm-2">{:__('Diyname')}:</label>
-                                <div class="col-xs-12 col-sm-8">
-                                    <div class="input-group">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{:addon_url('cms/archives/index', [':diyname'=>''])}</button>
-                                        </div>
-                                        <input type="text" id="c-diyname" data-rule="diyname" name="row[diyname]" class="form-control" placeholder="请输入自定义的名称,为空将使用主键ID"/>
-                                    </div>
-                                </div>
-                            </div>
+<!--                            <div class="form-group">-->
+<!--                                <label for="c-diyname" class="control-label col-xs-12 col-sm-2">{:__('Diyname')}:</label>-->
+<!--                                <div class="col-xs-12 col-sm-8">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <div class="input-group-btn">-->
+<!--                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">{:addon_url('cms/archives/index', [':diyname'=>''])}</button>-->
+<!--                                        </div>-->
+<!--                                        <input type="text" id="c-diyname" data-rule="diyname" name="row[diyname]" class="form-control" placeholder="请输入自定义的名称,为空将使用主键ID"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="form-group">
                                 <label for="c-content" class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
                                 <div class="col-xs-12 col-sm-8">
@@ -110,6 +110,8 @@
                                         <a href="javascript:" class="btn btn-xs btn-danger btn-keywords"><i class="fa fa-file"></i> {:__('Get the keyword and description')}</a>
                                         <a href="javascript:" class="btn btn-xs btn-info btn-getimage" data-toggle="tooltip" data-title="将提取内容第一张图作为缩略图"><i class="fa fa-camera"></i> {:__('提取缩略图')}</a>
                                         <a href="javascript:" class="btn btn-xs btn-info btn-getimages" data-toggle="tooltip" data-title="将提取内容前4张图作为组图"><i class="fa fa-camera"></i> {:__('提取组图')}</a>
+                                        <a href="javascript:" class="btn btn-xs btn-danger btn-localize-images" data-toggle="tooltip" data-title="远程图片本地化"> {:__('远程图片本地化')}</a>
+                                        <a href="javascript:" class="btn btn-xs btn-success btn-remove-urls" data-toggle="tooltip" data-title="清除非本站链接"> {:__('清除非本站链接')}</a>
                                         <div style="margin-top:5px;">
                                             <a href="javascript:" class="btn btn-xs btn-success btn-paytag" data-toggle="tooltip" data-title="只针对付费文章有效"><i class="fa fa-cny"></i> {:__('付费可见标签')}</a>
                                             <button type="button" class="btn btn-xs btn-success btn-pagertag"><i class="fa fa-list"></i> {:__('文章分页标签')}</button>

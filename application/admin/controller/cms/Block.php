@@ -56,6 +56,19 @@ class Block extends Backend
         return json(['total' => count($list), 'list' => $list]);
     }
 
+    public function selectad_type()
+    {
+        $list = [];
+        $list[] = ['id' => 'indexfocus', 'name' => '首页焦点图'];
+//        $list[] = ['id' => 'downloadfocus', 'name' => '下载中心焦点图'];
+//        $list[] = ['id' => 'newsfocus', 'name' => '新闻中心焦点图'];
+//        $list[] = ['id' => 'productfocus', 'name' => '产品中心焦点图'];
+//        $list[] = ['id' => 'sidebarad1', 'name' => '边栏广告1'];
+//        $list[] = ['id' => 'sidebarad2', 'name' => '边栏广告2'];
+//        $list[] = ['id' => 'sidebarad3', 'name' => '边栏广告3'];
+        return json(['total' => count($list), 'list' => $list]);
+    }
+
     public function import()
     {
         return parent::import();

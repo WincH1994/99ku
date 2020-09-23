@@ -563,7 +563,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => '',
+    'value' => '123456',
     'rule' => '',
     'msg' => '',
     'tip' => '用于调用API接口时写入数据权限控制<br>可以为空',
@@ -734,8 +734,6 @@ return array (
     ),
     'value' => 
     array (
-      '服务器' => 'https://www.fastadmin.net/go/aliyun',
-      '阿里云' => 'https://www.fastadmin.net/go/aliyun',
     ),
     'rule' => 'required',
     'msg' => '',

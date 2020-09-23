@@ -384,14 +384,17 @@ class Archives extends Model
                 $archivesModel->where('id', 'in', $archives);
             }
         }
+        $now = time();
         $list = $archivesModel
             ->where($where)
             ->where($condition)
+            ->where('publishtime', '<=', $now)
             ->field($field)
             ->cache($cache)
             ->order($order)
             ->limit($limit)
             ->select();
+
         //$list = collection($list)->toArray();
         //如果有设置附表和模型(或栏目)，则查询副表的数据
         if ($addon && (is_numeric($model) || $channel)) {

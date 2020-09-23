@@ -9,7 +9,7 @@
         <h3 class="panel-title">{:__('Recommend news')}</h3>
     </div>
     <div class="panel-body">
-        {cms:arclist id="item" model="1" channel="4" row="10" flag="recommend" orderby="id" orderway="asc"}
+        {cms:arclist id="item" model="1" channel="1" row="10" flag="recommend" orderby="id" orderway="asc" type="sons"}
         <div class="media media-number">
             <div class="media-left">
                 <span class="num">{$i}</span>
@@ -48,7 +48,7 @@
         <h3 class="panel-title">{:__('Hot design articles')}</h3>
     </div>
     <div class="panel-body">
-        {cms:arclist id="item" model="1" channel="5" row="10" flag="recommend" orderby="id" orderway="asc"}
+        {cms:arclist id="item" model="1" channel="2" row="10" flag="recommend" orderby="id" orderway="asc" type="sons"}
         <div class="media media-number">
             <div class="media-left">
                 <span class="num">{$i}</span>
