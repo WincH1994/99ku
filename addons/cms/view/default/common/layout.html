@@ -16,7 +16,8 @@
     <meta name="keywords" content="{cms:config name='cms.keywords'/}"/>
     <meta name="description" content="{cms:config name='cms.description'/}"/>
 
-    <link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico" type="image/x-icon"/>
+<!--    <link rel="shortcut icon" href="__CDN__/assets/img/favicon.ico" type="image/x-icon"/>-->
+    <link rel="shortcut icon" type="image/svg+xml" href="__CDN__/assets/img/2.svg">
     <link rel="stylesheet" media="screen" href="__CDN__/assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" media="screen" href="__CDN__/assets/libs/fastadmin-layer/dist/theme/default/layer.css"/>
@@ -30,6 +31,9 @@
     <!--[if lt IE 9]>
     <script src="__CDN__/libs/html5shiv.js"></script>
     <script src="__CDN__/libs/respond.min.js"></script>
+    <style>
+
+    </style>
     <![endif]-->
 
 </head>
@@ -47,21 +51,22 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" width="180" alt=""></a>
+                <a class="navbar-brand" href="{cms:config name='cms.indexurl'/}"><img src="{$Think.config.cms.sitelogo|default='/assets/addons/cms/img/logo.png'|cdnurl}" width="120" alt=""></a>
             </div>
 
-            <div class="collapse navbar-collapse" id="navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbar-collapse" style="min-width: 940px;">
                 <ul class="nav navbar-nav" data-current="{$__CHANNEL__.id|default=0}">
                     <!--如果你需要自定义NAV,可使用channellist标签来完成,这里只设置了2级,如果显示无限级,请使用cms:nav标签-->
                     {cms:channellist id="nav" type="top" condition="1=isnav"}
                     <!--判断是否有子级或高亮当前栏目-->
                     <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
-                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{$nav.name}{if $nav.has_child} <b class="caret"></b>{/if}</a>
-                        <ul class="dropdown-menu" role="menu">
-                            {cms:channellist id="sub" type="son" typeid="$nav['id']" condition="1=isnav"}
-                            <li><a href="{$sub.url}">{$sub.name}</a></li>
-                            {/cms:channellist}
-                        </ul>
+                        <a href="{$nav.url}">{$nav.name}</a>
+<!--                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{$nav.name}{if $nav.has_child} <b class="caret"></b>{/if}</a>-->
+<!--                        <ul class="dropdown-menu" role="menu">-->
+<!--                            {cms:channellist id="sub" type="son" typeid="$nav['id']" condition="1=isnav"}-->
+<!--                            <li><a href="{$sub.url}">{$sub.name}</a></li>-->
+<!--                            {/cms:channellist}-->
+<!--                        </ul>-->
                     </li>
                     {/cms:channellist}
                     <!--如果需要无限级请使用cms:nav标签-->

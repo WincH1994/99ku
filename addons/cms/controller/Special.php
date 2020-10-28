@@ -62,7 +62,7 @@ class Special extends Base
             })
             ->where('status', 'normal')
             ->whereNull('deletetime')
-            ->order('weigh DESC,id DESC')
+            ->order('id asc')
             ->paginate(10, $config['pagemode'] == 'simple', ['type' => '\\addons\\cms\\library\\Bootstrap']);
 
         $this->view->assign("archivesList", $archivesList);

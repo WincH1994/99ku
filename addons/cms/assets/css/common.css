@@ -472,7 +472,7 @@ a {
   }
 }
 .navbar-brand {
-  padding: 5px 15px;
+  padding: 0 0 0 15px;
 }
 .toast-top-center {
   top: 50px;

@@ -1,7 +1,7 @@
 {php}$page=request()->get('page/d',1);$offset=($page-1)*10;{/php}
 
 <!-- S 首页列表 -->
-{cms:arclist id="item" cache="false" orderby="weigh" limit="$offset,10"}
+{cms:arclist id="item" channel="1" cache="false" orderby="publishtime" limit="$offset,10" type="sons" filter="new"}
 {include file="common/item"}
 {/cms:arclist}
 <!-- E 首页列表 -->

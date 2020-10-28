@@ -3,8 +3,8 @@
 namespace addons\cms\model;
 
 use think\Cache;
-use think\Db;
 use think\Model;
+use think\Db;
 use think\View;
 
 /**
@@ -39,7 +39,9 @@ class Channel extends Model
     public function getUrlAttr($value, $data)
     {
         $diyname = $data['diyname'] ? $data['diyname'] : $data['id'];
+
         return isset($data['type']) && isset($data['outlink']) && $data['type'] == 'link' ? $this->getAttr('outlink') : addon_url('cms/channel/index', [':id' => $data['id'], ':diyname' => $diyname], static::$config['urlsuffix']);
+
     }
 
     public function getFullurlAttr($value, $data)

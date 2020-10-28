@@ -41,6 +41,7 @@ return array (
     '/a/[:diyname]$' => 'cms/archives/index',
     '/c/[:diyname]$' => 'cms/channel/index',
     '/u/[:id]' => 'cms/user/index',
+    '/[:catename]/[:diyname]/[:tagid]$' => 'cms/diytags/index',
     '/example$' => 'example/index/index',
     '/example/d/[:name]' => 'example/demo/index',
     '/example/d1/[:name]' => 'example/demo/demo1',

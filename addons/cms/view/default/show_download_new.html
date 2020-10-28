@@ -123,21 +123,21 @@
                         </div>
                     </div>
 
-<!--                    <div class="screenshots-box">-->
-<!--                        <h2>预览截图</h2>-->
-<!--                        <div class="swiper-container">-->
-<!--                            <div class="swiper-wrapper">-->
-<!--                                {php}$screenshots=explode(',', $__ARCHIVES__['screenshots']);{/php}-->
-<!--                                {foreach name="$screenshots" id="item"}-->
-<!--                                <div class="swiper-slide">-->
-<!--                                    <img itemprop="screenshot" layer-src="{$item|cdnurl}" src="{$item|cdnurl}"/>-->
-<!--                                </div>-->
-<!--                                {/foreach}-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="swiper-button-prev"></div>-->
-<!--                        <div class="swiper-button-next"></div>-->
-<!--                    </div>-->
+                    <div class="screenshots-box">
+                        <h2>预览截图</h2>
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                {php}$screenshots=explode(',', $__ARCHIVES__['screenshots']);{/php}
+                                {foreach name="$screenshots" id="item"}
+                                <div class="swiper-slide">
+                                    <img itemprop="screenshot" layer-src="{$item|cdnurl}" src="{$item|cdnurl}"/>
+                                </div>
+                                {/foreach}
+                            </div>
+                        </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
 
                     <div class="intro-box">
                         <h2>应用介绍</h2>
@@ -244,20 +244,20 @@
                                     <a href="{cms:channel name='url' /}" class="link" itemprop="category">{cms:channel name="name" /}</a>
                                 </div>
                             </div>
-<!--                            <div class="row">-->
-<!--                                <div class="col-xs-4">兼容性</div>-->
-<!--                                <div class="col-xs-8">-->
-<!--                                    <span itemprop="operatingSystem">-->
-<!--                                        {foreach name="__ARCHIVES__.os_list" id="item"}-->
-<!--                                        <a href="{cms:channel name="url" /}?filter[os]={$key}">{$item}</a>-->
-<!--                                        {/foreach}-->
-<!--                                    </span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="row">-->
-<!--                                <div class="col-xs-4">最新版本</div>-->
-<!--                                <div class="col-xs-8"><span itemprop="softwareVersion">{cms:archives name="version" /}</span></div>-->
-<!--                            </div>-->
+                            <div class="row">
+                                <div class="col-xs-4">兼容性</div>
+                                <div class="col-xs-8">
+                                    <span itemprop="operatingSystem">
+                                        {foreach name="__ARCHIVES__.os_list" id="item"}
+                                        <a href="{cms:channel name="url" /}?filter[os]={$key}">{$item}</a>
+                                        {/foreach}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4">最新版本</div>
+                                <div class="col-xs-8"><span itemprop="softwareVersion">{cms:archives name="version" /}</span></div>
+                            </div>
                             <div class="row">
                                 <div class="col-xs-4">文件大小</div>
                                 <div class="col-xs-8"><span itemprop="fileSize">{cms:archives name="filesize" /}</span></div>
@@ -266,16 +266,16 @@
                                 <div class="col-xs-4">更新日期</div>
                                 <div class="col-xs-8"><span itemprop="datePublished">{cms:archives name="publishtime|date='Y-m-d',###" /}</span></div>
                             </div>
-<!--                            <div class="row">-->
-<!--                                <div class="col-xs-4">语言</div>-->
-<!--                                <div class="col-xs-8">-->
-<!--                                    <span itemprop="language">-->
-<!--                                        {foreach name="__ARCHIVES__.language_list" id="item"}-->
-<!--                                        <a href="{cms:channel name="url" /}?filter[language]={$key}">{$item}</a>-->
-<!--                                        {/foreach}-->
-<!--                                    </span>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <div class="row">
+                                <div class="col-xs-4">语言</div>
+                                <div class="col-xs-8">
+                                    <span itemprop="language">
+                                        {foreach name="__ARCHIVES__.language_list" id="item"}
+                                        <a href="{cms:channel name="url" /}?filter[language]={$key}">{$item}</a>
+                                        {/foreach}
+                                    </span>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-xs-4">浏览次数</div>
                                 <div class="col-xs-8"><span itemprop="views">{cms:archives name="views" /}</span> 次浏览</div>
@@ -292,33 +292,33 @@
             </div>
             {if $config['userpage'] && $__ARCHIVES__['user']}
             <!-- S 关于作者 -->
-<!--            <div class="panel panel-default about-author" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">-->
-<!--                <meta itemProp="name" content="{$__ARCHIVES__.user.nickname}"/>-->
-<!--                <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl}"/>-->
-<!--                <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>-->
-<!--                <div class="panel-heading">-->
-<!--                    <h3 class="panel-title">关于作者</h3>-->
-<!--                </div>-->
-<!--                <div class="panel-body">-->
-<!--                    <div class="media">-->
-<!--                        <div class="media-left">-->
-<!--                            <a href="{$__ARCHIVES__.user.url}">-->
-<!--                                <img class="media-object img-circle img-medium" style="width:64px;height:64px;" src="{$__ARCHIVES__.user.avatar|cdnurl}"-->
-<!--                                     data-holder-rendered="true">-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                        <div class="media-body">-->
-<!--                            <h3 style="margin-top:10px;" class="media-heading">-->
-<!--                                <a href="{$__ARCHIVES__.user.url}">{$__ARCHIVES__.user.nickname}</a>-->
-<!--                            </h3>-->
-<!--                            {$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+            <div class="panel panel-default about-author" data-id="{$__ARCHIVES__.user.id}" itemProp="author" itemscope="" itemType="http://schema.org/Person">
+                <meta itemProp="name" content="{$__ARCHIVES__.user.nickname}"/>
+                <meta itemProp="image" content="{$__ARCHIVES__.user.avatar|cdnurl}"/>
+                <meta itemProp="url" content="{$__ARCHIVES__.user.url}"/>
+                <div class="panel-heading">
+                    <h3 class="panel-title">关于作者</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="{$__ARCHIVES__.user.url}">
+                                <img class="media-object img-circle img-medium" style="width:64px;height:64px;" src="{$__ARCHIVES__.user.avatar|cdnurl}"
+                                     data-holder-rendered="true">
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <h3 style="margin-top:10px;" class="media-heading">
+                                <a href="{$__ARCHIVES__.user.url}">{$__ARCHIVES__.user.nickname}</a>
+                            </h3>
+                            {$__ARCHIVES__.user.bio|default="这家伙很懒，什么也没写！"}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- E 关于作者 -->
             {/if}
-            {include file="common/sidebar_downloads" /}
+            {include file="common/sidebar" /}
         </aside>
     </div>
 </div>

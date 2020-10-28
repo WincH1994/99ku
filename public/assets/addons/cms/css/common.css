@@ -472,7 +472,7 @@ a {
   }
 }
 .navbar-brand {
-  padding: 5px 15px;
+  padding: 0 0 0 15px;
 }
 .toast-top-center {
   top: 50px;
@@ -2102,4 +2102,13 @@ h1 .breadcrumb li {
 }
 .autocomplete-suggestions .autocomplete-suggestion:hover {
   background: #f0f0f0;
+}
+
+video{
+  width: 100%!important;
+  height: 100%!important;
+}
+.intro-box img{
+  width: 100%!important;
+  height: 100%!important;
 }

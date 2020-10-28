@@ -3,13 +3,13 @@
     {cms:block name="sidebarad1" cache="0"/}
 </div>
 
-<!-- S 热门资讯 -->
+<!-- S 最新推荐 同列表下最新更新8篇  -->
 <div class="panel panel-default hot-article">
     <div class="panel-heading">
-        <h3 class="panel-title">{:__('Recommend sources')}</h3>
+        <h3 class="panel-title">{:__('Latest recommend')}</h3>
     </div>
     <div class="panel-body">
-        {cms:arclist id="item" channel="23" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+        {cms:arclist id="item" channel="$__ARCHIVES__.channel_id" row="8" orderby="publishtime" orderway="desc" type="sons" filter="$__ARCHIVES__.id"}
         <div class="media media-number">
             <div class="media-left">
                 <span class="num">{$i}</span>
@@ -21,7 +21,7 @@
         {/cms:arclist}
     </div>
 </div>
-<!-- E 热门资讯 -->
+<!-- E 推荐课程 -->
 
 <div class="panel panel-blockimg">
     {cms:block name="sidebarad2" cache="0"/}
@@ -34,7 +34,7 @@
     </div>
     <div class="panel-body">
         <div class="tags">
-            {cms:tagslist id="tag" orderby="rand" limit="30"}
+            {cms:tagslist id="tag" orderby="rand" limit="30" channel="$__CHANNEL__"}
             <a href="{$tag.url}" class="tag"> <span>{$tag.name}</span></a>
             {/cms:tagslist}
         </div>
@@ -42,13 +42,13 @@
 </div>
 <!-- E 热门标签 -->
 
-<!-- S 热门设计文章 -->
+<!-- S 推荐资讯 -->
 <div class="panel panel-default recommend-article">
     <div class="panel-heading">
-        <h3 class="panel-title">{:__('Recommend download')}</h3>
+        <h3 class="panel-title">{:__('Hot recommend')}</h3>
     </div>
     <div class="panel-body">
-        {cms:arclist id="item" channel="23" row="10" orderby="views" orderway="desc" type="sons"}
+        {cms:arclist id="item" tags="__ARCHIVES__.tags" row="10" orderby="publishtime" orderway="desc"}
         <div class="media media-number">
             <div class="media-left">
                 <span class="num">{$i}</span>
@@ -60,7 +60,7 @@
         {/cms:arclist}
     </div>
 </div>
-<!-- E 热门设计文章 -->
+<!-- E 推荐资讯 -->
 
 <div class="panel panel-blockimg">
     {cms:block name="sidebarad3" cache="0"/}

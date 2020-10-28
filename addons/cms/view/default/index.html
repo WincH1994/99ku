@@ -41,40 +41,40 @@
                 <!-- E 焦点图 -->
             </div>
 
-<!--            <div class="panel panel-default index-gallary">-->
-<!--                <div class="panel-heading">-->
-<!--                    <h3 class="panel-title">-->
-<!--                        <span>热门图集</span>-->
-<!--                        <div class="more">-->
-<!--                            <a href="{:addon_url('cms/channel/index', [':id'=>2, ':diyname'=>'product'])}">查看更多</a>-->
-<!--                        </div>-->
-<!--                    </h3>-->
+            <div class="panel panel-default index-gallary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span>热门资讯</span>
+                        <div class="more">
+                            <a href="{:addon_url('cms/channel/index', [':id'=>19, ':diyname'=>'news'])}">查看更多</a>
+                        </div>
+                    </h3>
 
-<!--                </div>-->
-<!--                <div class="panel-body">-->
-<!--                    <div class="related-article">-->
-<!--                        <div class="row">-->
-<!--                            &lt;!&ndash; S 热门图集 &ndash;&gt;-->
-<!--                            {cms:arclist id="item" model="2" orderby="views" row="4"}-->
-<!--                            <div class="col-sm-3 col-xs-6">-->
-<!--                                <a href="{$item.url}" class="img-zoom">-->
-<!--                                    <div class="embed-responsive embed-responsive-4by3">-->
-<!--                                        <img src="{$item.image}" alt="{$item.title}" class="embed-responsive-item">-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                                <h5>{$item.title}</h5>-->
-<!--                            </div>-->
-<!--                            {/cms:arclist}-->
-<!--                            &lt;!&ndash; E 热门图集 &ndash;&gt;-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
+                </div>
+                <div class="panel-body">
+                    <div class="related-article">
+                        <div class="row">
+                            <!-- S 热门资讯 -->
+                            {cms:arclist id="item" model="4" orderby="publishtime" row="4" filter="new"}
+                            <div class="col-sm-3 col-xs-6">
+                                <a href="{$item.url}" class="img-zoom">
+                                    <div class="embed-responsive embed-responsive-4by3">
+                                        <img onerror="this.src='/assets/addons/cms/img/noimage.jpg';this.onerror=null;" src="{$item.image}" alt="{$item.title}" class="embed-responsive-item">
+                                    </div>
+                                </a>
+                                <h5>{$item.title}</h5>
+                            </div>
+                            {/cms:arclist}
+                            <!-- E 热门资讯 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <span>最近更新</span>
+                        <span>软件教程</span>
 
                         <div class="more hidden-xs">
                             <ul class="list-unstyled list-inline">
@@ -96,27 +96,27 @@
         </main>
 
         <aside class="col-xs-12 col-sm-4">
-<!--            <div class="panel panel-default lasest-update">-->
-<!--                &lt;!&ndash; S 最近更新 &ndash;&gt;-->
-<!--                <div class="panel-heading">-->
-<!--                    <h3 class="panel-title">{:__('Recently update')}</h3>-->
-<!--                </div>-->
-<!--                <div class="panel-body">-->
-<!--                    <ul class="list-unstyled">-->
-<!--                        {cms:arclist id="new" row="8" orderby="id" orderway="desc"}-->
-<!--                        <li>-->
-<!--                            <span>[<a href="{$new.channel.url}">{$new.channel.name}</a>]</span>-->
-<!--                            <a class="link-dark" href="{$new.url}" title="{$new.title}">{$new.title}</a>-->
-<!--                        </li>-->
-<!--                        {/cms:arclist}-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--                &lt;!&ndash; E 最近更新 &ndash;&gt;-->
-<!--            </div>-->
+            <div class="panel panel-default lasest-update">
+                <!-- S 最近更新 -->
+                <div class="panel-heading">
+                    <h3 class="panel-title">{:__('Recently update')}</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+                        {cms:arclist model="1,4,6" id="item" row="8" orderby="publishtime" orderway="desc"}
+                        <li>
+                            <span>[<a href="{$item.channel.url}">{$item.channel.name}</a>]</span>
+                            <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                        </li>
+                        {/cms:arclist}
+                    </ul>
+                </div>
+                <!-- E 最近更新 -->
+            </div>
 
-<!--            <div class="panel panel-blockimg">-->
+            <div class="panel panel-blockimg">
 
-<!--            </div>-->
+            </div>
 
             {include file="common/sidebar" /}
 

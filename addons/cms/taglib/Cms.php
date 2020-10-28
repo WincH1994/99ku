@@ -30,7 +30,7 @@ class Cms extends TagLib
         'commentlist' => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,condition,type,aid,pid,fragment', 'close' => 1],
         'breadcrumb'  => ['attr' => 'id,empty,key,mod', 'close' => 1],
         'channellist' => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,imgwidth,imgheight,condition,model,type,typeid,field', 'close' => 1],
-        'arclist'     => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,imgwidth,imgheight,condition,model,type,special,field,flag,channel,tags,addon', 'close' => 1],
+        'arclist'     => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,imgwidth,imgheight,condition,model,type,special,field,flag,channel,tags,addon,filter', 'close' => 1],
         'speciallist' => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,imgwidth,imgheight,condition,flag', 'close' => 1],
         'tagslist'    => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,condition,type', 'close' => 1],
         'userlist'    => ['attr' => 'id,row,limit,empty,key,mod,cache,orderby,orderway,imgwidth,imgheight,condition,name', 'close' => 1],
@@ -358,7 +358,7 @@ class Cms extends TagLib
         }
         $var = Random::alnum(10);
         $parse = '<?php ';
-        $parse .= '$__' . $var . '__ = \addons\cms\model\Tags::getTagsList([' . implode(',', $params) . ']);';
+        $parse .= '$__' . $var . '__ = \addons\cms\model\Diytags::getTagsList([' . implode(',', $params) . ']);';
         $parse .= ' ?>';
         $parse .= '{volist name="$__' . $var . '__" id="' . $id . '" empty="' . $empty . '" key="' . $key . '" mod="' . $mod . '"}';
         $parse .= $content;

@@ -34,5 +34,6 @@ class Base extends \think\addons\Controller
         if ($action && $this->request->isPost()) {
             return $this->$action();
         }
+
     }
 }

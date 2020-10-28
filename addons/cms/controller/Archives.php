@@ -66,7 +66,7 @@ class Archives extends Base
         $this->view->assign("__CHANNEL__", $channel);
         Config::set('cms.title', isset($archives['seotitle']) && $archives['seotitle'] ? $archives['seotitle'] : $archives['title']);
         Config::set('cms.keywords', $archives['keywords']);
-        Config::set('cms.description', $archives['description']);
+        Config::set('cms.description', $archives['description'] ? $archives['description'] : substr(strip_tags($archives['content']),0,75));
         $template = preg_replace('/\.html$/', '', $channel['showtpl']);
         return $this->view->fetch('/' . $template);
     }

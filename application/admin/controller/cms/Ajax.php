@@ -149,7 +149,8 @@ class Ajax extends Backend
     public function localize_image()
     {
         $txt = $this->request->post("content");
-        $keywords = 'http://w.99ku.vip/';
+        //$keywords = 'http://w.99ku.vip/';
+        $keywords = 'http://192.168.2.188';
         $matches = array();
         preg_match_all('/<img.+?src=(.+?)\s/is',$txt,$matches);
         if(!is_array($matches)) return $txt;
@@ -161,7 +162,11 @@ class Ajax extends Backend
 
             if(strpos($url,$keywords) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
             {
-                $ext = pathinfo($url)['extension'];
+                if(($headers=get_headers($url, 1))!==false){
+                    // 获取响应的类型
+                    $type = $headers['Content-Type'];
+                }
+                $ext = str_replace("image/","",$type);
                 $data = Http::get($url);
                 if($data){
                     $file_path = './uploads/' . date('Ymd').'/';
@@ -172,7 +177,7 @@ class Ajax extends Backend
                     $path = file_put_contents($file,$data);
                     if($path){
                         $file = substr($file,1,strlen($txt));
-                        $file = "http://w.99ku.vip".$file;
+                        $file = $keywords.$file;
                         $txt = str_replace($v,'"' . $file . '"',$txt);
                     }
                 }

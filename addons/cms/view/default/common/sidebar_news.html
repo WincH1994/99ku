@@ -1,0 +1,173 @@
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad1" cache="0"/}
+</div>
+
+<!-- S 推荐下载 -->
+<div class="panel panel-default recommend-article">
+    <div class="panel-heading">
+        {if in_array($__CHANNEL__['id'],[1,19,23]) ||  in_array($__CHANNEL__['parent_id'],[1,19,23])}
+            {if $__CHANNEL__['id'] == 1 ||  $__CHANNEL__['parent_id'] == 1}
+                <h3 class="panel-title">{:__('Recommend download')}</h3>
+            {/if}
+            {if $__CHANNEL__['id'] == 19 ||  $__CHANNEL__['parent_id'] == 19}
+                <h3 class="panel-title">{:__('Recommend download')}</h3>
+            {/if}
+            {if $__CHANNEL__['id'] == 23 ||  $__CHANNEL__['parent_id'] == 23}
+                <h3 class="panel-title">{:__('Recommend courses')}</h3>
+            {/if}
+        {else /}
+            <h3 class="panel-title">{:__('Recommend sources')}</h3>
+        {/if}
+    </div>
+    <div class="panel-body">
+        {if in_array($__CHANNEL__['id'],[1,19,23]) ||  in_array($__CHANNEL__['parent_id'],[1,19,23])}
+            {if $__CHANNEL__['id'] == 1 ||  $__CHANNEL__['parent_id'] == 1}
+                {cms:arclist id="item" channel="23" row="10" orderby="publishtime" orderway="desc" type="sons"}
+                    <div class="media media-number">
+                        <div class="media-left">
+                            <span class="num">{$i}</span>
+                        </div>
+                        <div class="media-body">
+                            <a href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                        </div>
+                    </div>
+                {/cms:arclist}
+            {/if}
+            {if $__CHANNEL__['id'] == 19 ||  $__CHANNEL__['parent_id'] == 19}
+                {cms:arclist id="item" channel="23" row="10" orderby="publishtime" orderway="desc" type="sons"}
+                    <div class="media media-number">
+                        <div class="media-left">
+                            <span class="num">{$i}</span>
+                        </div>
+                        <div class="media-body">
+                            <a href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                        </div>
+                    </div>
+                {/cms:arclist}
+            {/if}
+            {if $__CHANNEL__['id'] == 23 ||  $__CHANNEL__['parent_id'] == 23}
+                {cms:arclist id="item" channel="1" row="10" orderby="publishtime" orderway="desc" type="sons"}
+                    <div class="media media-number">
+                        <div class="media-left">
+                            <span class="num">{$i}</span>
+                        </div>
+                        <div class="media-body">
+                            <a href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                        </div>
+                    </div>
+                {/cms:arclist}
+            {/if}
+        {else /}
+            {cms:arclist id="item" channel="23" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+            {/cms:arclist}
+        {/if}
+
+
+    </div>
+</div>
+<!-- E 推荐下载 -->
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad2" cache="0"/}
+</div>
+
+<!-- S 热门标签 -->
+<div class="panel panel-default hot-tags">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Hot tags')}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="tags">
+            {cms:tagslist id="tag" orderby="rand" limit="30" channel="$__CHANNEL__"}
+            <a href="{$tag.url}" class="tag"> <span>{$tag.name}</span></a>
+            {/cms:tagslist}
+        </div>
+    </div>
+</div>
+<!-- E 热门标签 -->
+
+<!-- S 推荐资讯 -->
+<div class="panel panel-default hot-article">
+    <div class="panel-heading">
+        {if in_array($__CHANNEL__['id'],[1,19,23]) ||  in_array($__CHANNEL__['parent_id'],[1,19,23])}
+            {if $__CHANNEL__['id'] == 1 ||  $__CHANNEL__['parent_id'] == 1}
+                <h3 class="panel-title">{:__('Recommend news')}</h3>
+            {/if}
+            {if $__CHANNEL__['id'] == 23 ||  $__CHANNEL__['parent_id'] == 23}
+            <h3 class="panel-title">{:__('Recommend news')}</h3>
+            {/if}
+            {if $__CHANNEL__['id'] == 19 ||  $__CHANNEL__['parent_id'] == 19}
+                <h3 class="panel-title">{:__('Recommend courses')}</h3>
+            {/if}
+        {else /}
+            <h3 class="panel-title">{:__('Recommend download')}</h3>
+        {/if}
+    </div>
+    <div class="panel-body">
+        {if in_array($__CHANNEL__['id'],[1,19,23]) ||  in_array($__CHANNEL__['parent_id'],[1,19,23])}
+            {if $__CHANNEL__['id'] == 1 ||  $__CHANNEL__['parent_id'] == 1}
+            {cms:arclist id="item" channel="19" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+            {/cms:arclist}
+            {/if}
+            {if $__CHANNEL__['id'] == 19 ||  $__CHANNEL__['parent_id'] == 19}
+            {cms:arclist id="item" channel="1" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+            {/cms:arclist}
+            {/if}
+            {if $__CHANNEL__['id'] == 23 ||  $__CHANNEL__['parent_id'] == 23}
+            {cms:arclist id="item" channel="19" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+            {/cms:arclist}
+            {/if}
+        {else /}
+            {cms:arclist id="item" channel="23" row="8" orderby="publishtime" orderway="desc" type="sons" filter="new"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+            {/cms:arclist}
+        {/if}
+
+    </div>
+</div>
+<!-- E 推荐资讯 -->
+
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad3" cache="0"/}
+</div>

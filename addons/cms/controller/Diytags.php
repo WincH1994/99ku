@@ -3,28 +3,58 @@
 namespace addons\cms\controller;
 
 use addons\cms\model\Archives;
-use addons\cms\model\Tags as TagsModel;
+use addons\cms\model\Diytags as DiytagsModel;
 use think\Config;
 
 /**
- * 标签控制器
- * Class Tags
+ * 新标签控制器
+ * Class NewTags
  * @package addons\cms\controller
  */
-class Tags extends Base
+class Diytags extends Base
 {
     public function index()
     {
+
         $config = get_addon_config('cms');
 
+
         $tags = null;
-        $name = $this->request->param('name');
-        if ($name) {
-            $tags = TagsModel::getByName($name);
+        $diyname = $this->request->param('diyname');
+        $catename = $this->request->param('catename');
+        $tagid = $this->request->param('tagid');
+
+
+        if($catename == 'zyxz'){
+            $diyname = 'zyxz/'.$diyname . "_".$tagid;
+        }else{
+            $diyname = $diyname . "/".$tagid;
+        }
+
+        $channel_arr = [];
+        $channel = \addons\cms\model\Channel::where('diyname',$catename)->select();
+
+        if(empty($channel)){
+            $this->error(__('No specified channel found'));
+        }
+
+        $channels = \addons\cms\model\Channel::where('parent_id',$channel[0]['id'])->select();
+
+        foreach ($channels as $channel){
+            $channel_arr[] = $channel['id'];
+        }
+
+        if(empty($channel_arr)){
+            $this->error(__('No specified channel found'));
+        }
+
+        if ($diyname) {
+            $tags = DiytagsModel::getByDiyname($diyname);
         }
         if (!$tags) {
             $this->error(__('No specified tags found'));
         }
+
 
         $filterlist = [];
         $orderlist = [];
@@ -54,11 +84,12 @@ class Tags extends Base
             $orderlist[] = $v;
         }
         $orderby = $orderby == 'default' ? 'weigh DESC,id DESC' : $orderby;
-        $pagelist = Archives::with(['channel'])
-            ->where('status', 'normal')
+        $pagelist = Archives::where('status', 'normal')
+            ->where('channel_id','in', implode(",",$channel_arr))
             ->where('id', 'in', explode(',', $tags['archives']))
             ->order($orderby, $orderway)
             ->paginate(10, $config['pagemode'] == 'simple', ['type' => '\\addons\\cms\\library\\Bootstrap']);
+
 
         $pagelist->appends($params);
         $this->view->assign("__FILTERLIST__", $filterlist);
@@ -68,6 +99,6 @@ class Tags extends Base
         Config::set('cms.title', isset($tags['seotitle']) && $tags['seotitle'] ? $tags['seotitle'] : $tags['name']);
         Config::set('cms.keywords', $tags['keywords']);
         Config::set('cms.description', $tags['description']);
-        return $this->view->fetch('/tags');
+        return $this->view->fetch('/diy_tags');
     }
 }

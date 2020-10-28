@@ -46,10 +46,26 @@ class Archives extends Model
         if (is_object($data)) {
             $data = get_object_vars($data);
         }
-        //替换付费内容标签
         if (isset($data['content'])) {
+            //替换付费内容标签
             $data['content'] = str_replace(['##paidbegin##', '##paidend##'], ['<paid>', '</paid>'], $data['content']);
             $data['content'] = str_replace(['$$paidbegin$$', '$$paidend$$'], ['<paid>', '</paid>'], $data['content']);
+
+            //替换文章主体内自动匹配后台标签库，规则通过之前图文教程规则
+            $archive = Archives::get($data['id']);
+            $channel = Channel::get($archive['channel_id']);
+            $parent_channel = Channel::get($channel['parent_id']);
+            $diytags = Diytags::where('channel_id',$parent_channel['id'])->select();
+            foreach ($diytags as $diytag){
+                if(strpos($data['content'],$diytag['name']) !== false){
+                    $diyname = explode("/",$diytag['diyname'])[0];
+                    $tagid = explode("/",$diytag['diyname'])[1];
+                    $catename = $parent_channel['diyname'];
+                    $replace = addon_url('cms/diytags/index', [':id' => $data['id'], ':catename'=>$catename, ':diyname'=>$diyname, ':tagid'=>$tagid], static::$config['urlsuffix']);
+                    $replace = "<a href='{$replace}' target='_blank' style='color: #0070C0;text-decoration: underline;'>{$diytag['name']}</a>";
+                    $data['content'] = str_replace($diytag['name'],$replace,$data['content']);
+                }
+            }
         }
         $this->data = array_merge($this->data, $data);
         $this->origin = $this->data;
@@ -201,7 +217,16 @@ class Archives extends Model
         }
         $list = [];
         foreach (array_filter(explode(",", $data['tags'])) as $k => $v) {
-            $list[] = ['name' => $v, 'url' => addon_url('cms/tags/index', [':name' => $v])];
+
+            $tag = Diytags::where('name',$v)->find();
+            if(empty($tag)){
+                break;
+            }
+            $diyname = explode("/",$tag['diyname'])[0];
+            $tagid = explode("/",$tag['diyname'])[1];
+            $catename = Channel::where('id',$tag['channel_id'])->select();
+            $catename = $catename[0]['diyname'];
+            $list[] = ['name' => $v, 'url' => addon_url('cms/diytags/index', [':catename'=>$catename, ':diyname'=>$diyname, ':tagid'=>$tagid])];
         }
         $data['tagslist'] = $list;
         return $list;
@@ -212,7 +237,8 @@ class Archives extends Model
         $diyname = isset($data['diyname']) && $data['diyname'] ? $data['diyname'] : $data['id'];
         $catename = isset($this->channel) && $this->channel ? $this->channel->diyname : 'all';
         $cateid = isset($this->channel) && $this->channel ? $this->channel->id : 0;
-        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix']);
+        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], 'html');
+        //return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix']);
     }
 
     public function getFullurlAttr($value, $data)
@@ -305,6 +331,18 @@ class Archives extends Model
         $cache = !$cache ? false : $cache;
         $where = ['status' => 'normal'];
 
+        $filter = isset($tag['filter']) ? $tag['filter'] : '';
+
+        $filter_id = [];
+        if ($filter == 'new'){
+            $list = self::getArchivesList(["model"=>"1,4,6","id"=>"item","row"=>"8","orderby"=>"publishtime","orderway"=>"desc"]);
+            foreach ($list as $v){
+                $filter_id[] = $v['id'];
+            }
+        }else{
+            $filter_id[] = $filter;
+        }
+
         $where['deletetime'] = ['exp', Db::raw('IS NULL')]; //by erastudio
         if ($model !== '') {
             $where['model_id'] = ['in', $model];
@@ -348,7 +386,7 @@ class Archives extends Model
             if ($specialModel) {
                 $archivesIds = [];
                 if ($specialModel['tag_ids']) {
-                    $tagsList = Tags::where('id', 'in', $specialModel['tag_ids'])->cache(86400)->column('archives');
+                    $tagsList = Diytags::where('id', 'in', $specialModel['tag_ids'])->cache(86400)->column('archives');
                     foreach ($tagsList as $index => $item) {
                         $archivesIds = array_merge($archivesIds, array_filter(explode(',', $item)));
                     }
@@ -369,13 +407,13 @@ class Archives extends Model
             }
         }
 
-        $order = $orderby == 'rand' ? 'rand()' : (in_array($orderby, ['createtime', 'updatetime', 'views', 'weigh', 'id']) ? "{$orderby} {$orderway}" : "createtime {$orderway}");
+        $order = $orderby == 'rand' ? 'rand()' : (in_array($orderby, ['createtime','publishtime', 'updatetime', 'views', 'weigh', 'id', 'downloads']) ? "{$orderby} {$orderway}" : "createtime {$orderway}");
         $order = $orderby == 'weigh' ? $order . ',id DESC' : $order;
 
         $archivesModel = self::with($with);
         // 如果有筛选标签,则采用子查询
         if ($tags) {
-            $tagsList = Tags::where('name', 'in', explode(',', $tags))->cache($cache)->limit($limit)->select();
+            $tagsList = Diytags::where('name', 'in', explode(',', $tags))->cache($cache)->limit($limit)->select();
             $archives = [];
             foreach ($tagsList as $k => $v) {
                 $archives = array_merge($archives, explode(',', $v['archives']));
@@ -384,11 +422,13 @@ class Archives extends Model
                 $archivesModel->where('id', 'in', $archives);
             }
         }
+
         $now = time();
         $list = $archivesModel
             ->where($where)
             ->where($condition)
             ->where('publishtime', '<=', $now)
+            ->whereNotIn('id',$filter_id)
             ->field($field)
             ->cache($cache)
             ->order($order)

@@ -1,0 +1,68 @@
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad1" cache="0"/}
+</div>
+
+<!-- S 最近更新 -->
+<div class="panel panel-default recommend-article">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Latest recommend')}</h3>
+    </div>
+    <div class="panel-body">
+        {cms:arclist id="item" channel="$__CHANNEL__.parent_id" row="8" orderby="publishtime" orderway="desc" type="sons"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+        {/cms:arclist}
+    </div>
+</div>
+<!-- E 推荐下载 -->
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad2" cache="0"/}
+</div>
+
+<!-- S 热门标签 -->
+<div class="panel panel-default hot-tags">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Hot tags')}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="tags">
+            {cms:tagslist id="tag" orderby="rand" limit="30" channel="$__CHANNEL__"}
+            <a href="{$tag.url}" class="tag"> <span>{$tag.name}</span></a>
+            {/cms:tagslist}
+        </div>
+    </div>
+</div>
+<!-- E 热门标签 -->
+
+<!-- S 热门推荐 -->
+<div class="panel panel-default hot-article">
+    <div class="panel-heading">
+        <h3 class="panel-title">{:__('Hot recommend')}</h3>
+    </div>
+    <div class="panel-body">
+        {cms:arclist id="item" tags="__ARCHIVES__.tags" row="8" orderby="publishtime" orderway="desc"}
+            <div class="media media-number">
+                <div class="media-left">
+                    <span class="num">{$i}</span>
+                </div>
+                <div class="media-body">
+                    <a class="link-dark" href="{$item.url}" title="{$item.title}">{$item.title}</a>
+                </div>
+            </div>
+        {/cms:arclist}
+    </div>
+</div>
+<!-- E 热门推荐 -->
+
+
+<div class="panel panel-blockimg">
+    {cms:block name="sidebarad3" cache="0"/}
+</div>

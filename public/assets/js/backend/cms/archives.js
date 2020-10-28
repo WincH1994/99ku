@@ -694,7 +694,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                             console.log(data)
                             $("#c-content").val(data)
                         }, function (data, ret) {
-                            Toastr.error(data.msg);
+                            Toastr.error(ret);
                         });
                     } else {
                         Toastr.error("未找到任何图片");
@@ -714,7 +714,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                             content = content.replace(v.outerHTML, $(v).html());
                         }
                     })
-
+                    console.log(content)
                     $content.val(content);
                     Toastr.success("清除成功");
                     return false;

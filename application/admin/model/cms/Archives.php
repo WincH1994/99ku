@@ -5,6 +5,7 @@ namespace app\admin\model\cms;
 use addons\cms\library\FulltextSearch;
 use addons\cms\library\Service;
 use app\common\model\User;
+use think\Log;
 use think\Model;
 use traits\model\SoftDelete;
 
@@ -154,6 +155,23 @@ class Archives extends Model
                 //更新全文搜索
                 FulltextSearch::update($row->id);
             }
+            $parent_channel_id = $channel['parent_id'];
+            $new_tags_list = NewTags::where('channel_id',$parent_channel_id)->select();
+
+            foreach ($new_tags_list as $k => $v){
+                if(strpos($row['content'],$v['name']) !== false){
+                    Log::write('new_tags: ' . $v['name'] . "\n");
+                    //内容包含自定义标签 将文章id写入自定义标签文章id列表
+                    $archives = explode(',',$v['archives']);
+                    if (!in_array($row['id'], $archives)) {
+                        array_push($archives,$row['id']);
+                        $v->nums = count($archives);
+                        $v->archives = implode(',', $archives);
+                        $v->save();
+                    }
+                }
+            }
+
         });
         self::afterDelete(function ($row) use ($config) {
             $data = Archives::withTrashed()->find($row['id']);
