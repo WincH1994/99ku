@@ -40,7 +40,11 @@ class Channel extends Model
     {
         $diyname = $data['diyname'] ? $data['diyname'] : $data['id'];
 
-        return isset($data['type']) && isset($data['outlink']) && $data['type'] == 'link' ? $this->getAttr('outlink') : addon_url('cms/channel/index', [':id' => $data['id'], ':diyname' => $diyname], static::$config['urlsuffix']);
+        if(isset($data['type']) && isset($data['outlink']) && $data['type'] == 'link'){
+            return $this->getAttr('outlink');
+        }else{
+            return addon_url('cms/channel/index', [':id' => $data['id'], ':diyname' => $diyname], static::$config['urlsuffix']);
+        }
 
     }
 

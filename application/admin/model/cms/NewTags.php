@@ -49,9 +49,21 @@ class NewTags extends Model
     {
         $diyname = isset($data['diyname']) && $data['diyname'] ? $data['diyname'] : $data['id'];
         $catename = isset($this->channel) && $this->channel ? $this->channel->diyname : 'all';
-        $new_diyname = explode("/",$diyname)[0];
-        $tagid = explode("/",$diyname)[1];
-        return addon_url('cms/diytags/index', [':id' => $data['id'], ':diyname' => $new_diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':tagid' => $tagid], static::$config['urlsuffix'], true);
+
+        if (strpos($data['diyname'],"zyxz") !== false){
+            $diyname = explode("/",$data['diyname'])[1];
+            $tagid = explode("_",$diyname)[1];
+            $diyname = explode("_",$diyname)[0];
+            $catename = Channel::where('id',$data['channel_id'])->select();
+            $catename = $catename[0]['diyname'];
+        }elseif (strpos($data['diyname'],"/") !== false){
+            $diyname = explode("/",$data['diyname'])[0];
+            $tagid = explode("/",$data['diyname'])[1];
+            $catename = Channel::where('id',$data['channel_id'])->select();
+            $catename = $catename[0]['diyname'];
+        }
+
+        return addon_url('cms/diytags/index', [':id' => $data['id'], ':diyname' => $diyname, ':catename' => $catename, ':tagid' => $tagid], static::$config['urlsuffix'], true);
     }
 
 

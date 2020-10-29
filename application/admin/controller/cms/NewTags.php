@@ -20,7 +20,7 @@ class NewTags extends Backend
     protected $noNeedRight = ['get_channel_fields', 'check_element_available'];
     protected $channelIds = [];
     protected $isSuperAdmin = false;
-    protected $searchFields = 'id,title';
+    protected $searchFields = 'id,name';
 
     /**
      * NewTags模型对象
@@ -76,6 +76,7 @@ class NewTags extends Backend
             if (!$this->auth->isSuperAdmin()) {
                 $this->model->where('channel_id', 'in', $this->channelIds);
             }
+
             $list = $this->model
                 ->with(['Channel'])
                 ->where($where)

@@ -118,29 +118,29 @@ class Archives extends Model
                     }
                 }
             }
-            if (isset($row['tags'])) {
-                $tags = array_filter(explode(',', $row['tags']));
-                if ($tags) {
-                    $tagslist = Tags::where('name', 'in', $tags)->select();
-                    foreach ($tagslist as $k => $v) {
-                        $archives = explode(',', $v['archives']);
-                        if (!in_array($row['id'], $archives)) {
-                            $archives[] = $row['id'];
-                            $v->archives = implode(',', $archives);
-                            $v->nums++;
-                            $v->save();
-                        }
-                        $tags = array_udiff($tags, [$v['name']], 'strcasecmp');
-                    }
-                    $list = [];
-                    foreach ($tags as $k => $v) {
-                        $list[] = ['name' => $v, 'archives' => $row['id'], 'nums' => 1];
-                    }
-                    if ($list) {
-                        (new Tags())->saveAll($list);
-                    }
-                }
-            }
+//            if (isset($row['tags'])) {
+//                $tags = array_filter(explode(',', $row['tags']));
+//                if ($tags) {
+//                    $tagslist = Tags::where('name', 'in', $tags)->select();
+//                    foreach ($tagslist as $k => $v) {
+//                        $archives = explode(',', $v['archives']);
+//                        if (!in_array($row['id'], $archives)) {
+//                            $archives[] = $row['id'];
+//                            $v->archives = implode(',', $archives);
+//                            $v->nums++;
+//                            $v->save();
+//                        }
+//                        $tags = array_udiff($tags, [$v['name']], 'strcasecmp');
+//                    }
+//                    $list = [];
+//                    foreach ($tags as $k => $v) {
+//                        $list[] = ['name' => $v, 'archives' => $row['id'], 'nums' => 1];
+//                    }
+//                    if ($list) {
+//                        (new Tags())->saveAll($list);
+//                    }
+//                }
+//            }
             $changedData = $row->getChangedData();
             if (isset($changedData['status']) && $changedData['status'] == 'normal') {
                 //增加积分
@@ -158,9 +158,11 @@ class Archives extends Model
             $parent_channel_id = $channel['parent_id'];
             $new_tags_list = NewTags::where('channel_id',$parent_channel_id)->select();
 
+            $archive_tags = [];
             foreach ($new_tags_list as $k => $v){
                 if(strpos($row['content'],$v['name']) !== false){
-                    Log::write('new_tags: ' . $v['name'] . "\n");
+
+                    $archive_tags[] = $v['name'];
                     //内容包含自定义标签 将文章id写入自定义标签文章id列表
                     $archives = explode(',',$v['archives']);
                     if (!in_array($row['id'], $archives)) {
@@ -171,7 +173,11 @@ class Archives extends Model
                     }
                 }
             }
-
+            if(count($archive_tags) == 1){
+                \addons\cms\model\Archives::where('id',$row['id'])->update(['tags'=>$archive_tags[0]]);
+            }elseif (count($archive_tags) > 1){
+                \addons\cms\model\Archives::where('id',$row['id'])->update(['tags'=>implode(",",$archive_tags)]);
+            }
         });
         self::afterDelete(function ($row) use ($config) {
             $data = Archives::withTrashed()->find($row['id']);

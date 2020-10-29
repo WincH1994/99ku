@@ -57,10 +57,20 @@ class Archives extends Model
             $parent_channel = Channel::get($channel['parent_id']);
             $diytags = Diytags::where('channel_id',$parent_channel['id'])->select();
             foreach ($diytags as $diytag){
+
                 if(strpos($data['content'],$diytag['name']) !== false){
-                    $diyname = explode("/",$diytag['diyname'])[0];
-                    $tagid = explode("/",$diytag['diyname'])[1];
-                    $catename = $parent_channel['diyname'];
+                    if (strpos($diytag['diyname'],"zyxz") !== false){
+                        $diyname = explode("/",$diytag['diyname'])[1];
+                        $tagid = explode("_",$diyname)[1];
+                        $diyname = explode("_",$diyname)[0];
+                        $catename = Channel::where('id',$diytag['channel_id'])->select();
+                        $catename = $catename[0]['diyname'];
+                    }elseif (strpos($diytag['diyname'],"/") !== false){
+                        $diyname = explode("/",$diytag['diyname'])[0];
+                        $tagid = explode("/",$diytag['diyname'])[1];
+                        $catename = Channel::where('id',$diytag['channel_id'])->select();
+                        $catename = $catename[0]['diyname'];
+                    }
                     $replace = addon_url('cms/diytags/index', [':id' => $data['id'], ':catename'=>$catename, ':diyname'=>$diyname, ':tagid'=>$tagid], static::$config['urlsuffix']);
                     $replace = "<a href='{$replace}' target='_blank' style='color: #0070C0;text-decoration: underline;'>{$diytag['name']}</a>";
                     $data['content'] = str_replace($diytag['name'],$replace,$data['content']);
@@ -236,8 +246,10 @@ class Archives extends Model
     {
         $diyname = isset($data['diyname']) && $data['diyname'] ? $data['diyname'] : $data['id'];
         $catename = isset($this->channel) && $this->channel ? $this->channel->diyname : 'all';
-        $cateid = isset($this->channel) && $this->channel ? $this->channel->id : 0;
-        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], 'html');
+        if($catename != 'all'){
+            $catename = Channel::get($this->channel->parent_id)['diyname'];
+        }
+        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':catename' => $catename], 'html');
         //return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix']);
     }
 

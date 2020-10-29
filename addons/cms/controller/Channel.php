@@ -20,6 +20,7 @@ class Channel extends Base
 
         $diyname = $this->request->param('diyname');
 
+
         if ($diyname && !is_numeric($diyname)) {
             $channel = ChannelModel::getByDiyname($diyname);
         } else {
@@ -88,12 +89,13 @@ class Channel extends Base
         }
 
         $sortrank = [
-            ['name' => 'default', 'field' => 'weigh', 'title' => __('Default')],
+//            ['name' => 'default', 'field' => 'weigh', 'title' => __('Default')],
             ['name' => 'views', 'field' => 'views', 'title' => __('Views')],
-            ['name' => 'id', 'field' => 'id', 'title' => __('Post date')],
+            ['name' => 'publishtime', 'field' => 'publishtime', 'title' => __('Post date')],
         ];
 
-        $orderby = $orderby && in_array($orderby, ['default', 'id', 'views']) ? $orderby : 'default';
+//        $orderby = $orderby && in_array($orderby, ['default', 'id', 'views']) ? $orderby : 'publishtime';
+        $orderby = $orderby && in_array($orderby, ['publishtime', 'views']) ? $orderby : 'publishtime';
         $orderway = $orderway ? $orderway : 'desc';
         foreach ($sortrank as $k => $v) {
             $url = '?' . http_build_query(array_merge($params, ['orderby' => $v['name'], 'orderway' => $v['name'] == $orderby ? ($orderway == 'desc' ? 'asc' : 'desc') : 'desc']));
