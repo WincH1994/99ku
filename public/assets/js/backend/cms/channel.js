@@ -410,6 +410,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         }
                     });
                 });
+                $(document).on("change", "#c-diyname", function () {
+                    var value = $(this).val();
+
+                    if(value != ''){
+                        value = value.replace(/\s/g,"");
+                        $("#c-diyname").val(value);
+                    }
+                });
 
             }
         }
