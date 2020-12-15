@@ -60,13 +60,13 @@ x
                     {cms:channellist id="nav" type="top" condition="1=isnav"}
                     <!--判断是否有子级或高亮当前栏目-->
                     <li class="{if $nav.has_child}dropdown{/if} {if $nav->is_active} active{/if}">
-                        <a href="{$nav.url}">{$nav.name}</a>
-<!--                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{$nav.name}{if $nav.has_child} <b class="caret"></b>{/if}</a>-->
-<!--                        <ul class="dropdown-menu" role="menu">-->
-<!--                            {cms:channellist id="sub" type="son" typeid="$nav['id']" condition="1=isnav"}-->
-<!--                            <li><a href="{$sub.url}">{$sub.name}</a></li>-->
-<!--                            {/cms:channellist}-->
-<!--                        </ul>-->
+<!--                        <a href="{$nav.url}">{$nav.name}</a>-->
+                        <a href="{$nav.url}" {if $nav.has_child} data-toggle="dropdown" {/if}>{$nav.name}{if $nav.has_child} <b class="caret"></b>{/if}</a>
+                        <ul class="dropdown-menu" role="menu">
+                            {cms:channellist id="sub" type="son" typeid="$nav['id']" condition="1=isnav"}
+                            <li><a href="{$sub.url}">{$sub.name}</a></li>
+                            {/cms:channellist}
+                        </ul>
                     </li>
                     {/cms:channellist}
                     <!--如果需要无限级请使用cms:nav标签-->
