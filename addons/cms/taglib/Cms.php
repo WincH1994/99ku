@@ -478,6 +478,8 @@ class Cms extends TagLib
         $parse .= $content;
         $parse .= '{/volist}';
         $parse .= '{php}$__LASTLIST__=$__' . $var . '__;{/php}';
+
+
         return $parse;
     }
 

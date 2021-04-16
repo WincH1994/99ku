@@ -26,7 +26,16 @@ class Archives extends Base
             $archives = ArchivesModel::getByDiyname($diyname);
         } else {
             $id = $diyname ? $diyname : $this->request->param('id', '');
-            $archives = ArchivesModel::get($id, ['channel']);
+            if(is_numeric($id)){
+                $catename = $diyname ? $diyname : $this->request->param('catename', '');
+                $channel = Channel::get(['diyname'=>$catename]);
+                $archives = ArchivesModel::get(['old_id'=>$id,'model_id'=>$channel['model_id']], ['channel']);
+                if(!$archives){
+                    $archives = ArchivesModel::get($id, ['channel']);
+                }
+            }else{
+                $archives = ArchivesModel::get($id, ['channel']);
+            }
         }
         if (!$archives || ($archives['user_id'] != $this->auth->id && $archives['status'] != 'normal') || $archives['deletetime']) {
             $this->error(__('No specified article found'));

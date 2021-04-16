@@ -39,7 +39,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => '/uploads/20200917/5b5c1846749eb4648afff899f53d0f9c.png',
+    'value' => '/uploads/20210301/c660112c4bdc398ac24fbedb447fdb44.png',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
@@ -347,7 +347,7 @@ return array (
       'search/index' => '/s$',
       'diyform/index' => '/d/[:diyname]',
       'special/index' => '/special/[:diyname]',
-      'archives/index' => '/a/[:diyname]$',
+      'archives/index' => '/[:catename]/[:id]$',
       'channel/index' => '/c/[:diyname]$',
       'user/index' => '/u/[:id]',
       'diytags/index' => '/[:catename]/[:diyname]/[:tagid]$',

@@ -249,6 +249,7 @@ class Archives extends Model
         if($catename != 'all'){
             $catename = Channel::get($this->channel->parent_id)['diyname'];
         }
+        $data['id'] = $data['old_id']?:$data['id'];
         return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':catename' => $catename], 'html');
         //return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix']);
     }
@@ -495,7 +496,6 @@ class Archives extends Model
             }
         }
         self::render($list, $imgwidth, $imgheight);
-
         return $list;
     }
 
