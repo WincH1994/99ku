@@ -9,7 +9,8 @@ return [
     /**
      * CDN地址
      */
-    'cdnurl'    => '',
+    'cdnurl'    => 'https://img2.99ku.vip/ku',
+//    'cdnurl'    => '',
     /**
      * 文件保存格式
      */

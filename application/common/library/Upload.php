@@ -159,6 +159,7 @@ class Upload
             '{.suffix}'  => $suffix ? '.' . $suffix : '',
             '{filemd5}'  => $md5,
         ];
+
         $savekey = $savekey ? $savekey : $this->config['savekey'];
         $savekey = str_replace(array_keys($replaceArr), array_values($replaceArr), $savekey);
 
@@ -298,7 +299,10 @@ class Upload
         $uploadDir = substr($savekey, 0, strripos($savekey, '/') + 1);
         $fileName = substr($savekey, strripos($savekey, '/') + 1);
 
-        $destDir = ROOT_PATH . 'public' . str_replace('/', DS, $uploadDir);
+
+        //$destDir = ROOT_PATH . 'public' . str_replace('/', DS, $uploadDir);
+        $destDir = '/data2/upload/img/ku' . str_replace('/', DS, $uploadDir);
+
 
         $sha1 = $this->file->hash();
 

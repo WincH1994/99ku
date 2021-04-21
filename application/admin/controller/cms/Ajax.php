@@ -149,8 +149,9 @@ class Ajax extends Backend
     public function localize_image()
     {
         $txt = $this->request->post("content");
-        //$keywords = 'http://w.99ku.vip/';
-        $keywords = 'http://192.168.2.188';
+//        $cdn_prefix = 'loc-img.99ku.vip';
+        $cdn_prefix = 'https://img2.99ku.vip/';
+        //$keywords = $_SERVER['SERVER_NAME'];
         $matches = array();
         preg_match_all('/<img.+?src=(.+?)\s/is',$txt,$matches);
         if(!is_array($matches)) return $txt;
@@ -160,8 +161,14 @@ class Ajax extends Backend
             $url = trim($v,"\"'");
             $ext = '';
 
-            if(strpos($url,$keywords) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
+            if(strpos($url,$cdn_prefix) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
             {
+                stream_context_set_default( [
+                    'ssl' => [
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ]);
                 if(($headers=get_headers($url, 1))!==false){
                     // 获取响应的类型
                     $type = $headers['Content-Type'];
@@ -169,15 +176,19 @@ class Ajax extends Backend
                 $ext = str_replace("image/","",$type);
                 $data = Http::get($url);
                 if($data){
-                    $file_path = './uploads/' . date('Ymd').'/';
+//                    $file_path = 'H:/WincH/upload/img/ku/uploads/' . date('Ymd').'/';
+                    $file_path = '/data2/upload/img/ku/uploads/' . date('Ymd').'/';
                     if (!is_dir($file_path)) {
                         @mkdir($file_path, 0755, true);
                     }
-                    $file = './uploads/' . date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
-                    $path = file_put_contents($file,$data);
+                    $file_path =  date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
+                    $real_file = '/data2/upload/img/ku/uploads/' . $file_path;
+//                    $real_file = 'H:/WincH/upload/img/ku/uploads/' . date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
+                    $file = '/ku/uploads/' .$file_path;
+                    $path = file_put_contents($real_file,$data);
                     if($path){
                         $file = substr($file,1,strlen($txt));
-                        $file = $keywords.$file;
+                        $file = $cdn_prefix.$file;
                         $txt = str_replace($v,'"' . $file . '"',$txt);
                     }
                 }

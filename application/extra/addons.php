@@ -38,7 +38,7 @@ return array (
     '/s$' => 'cms/search/index',
     '/d/[:diyname]' => 'cms/diyform/index',
     '/special/[:diyname]' => 'cms/special/index',
-    '/[:catename]/[:id]$' => 'cms/archives/index',
+    '/a/[:diyname]$' => 'cms/archives/index',
     '/c/[:diyname]$' => 'cms/channel/index',
     '/u/[:id]' => 'cms/user/index',
     '/[:catename]/[:diyname]/[:tagid]$' => 'cms/diytags/index',
