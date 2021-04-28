@@ -684,18 +684,28 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                 });
                 //远程图片本地化
                 $(document).on("click", ".btn-localize-images", function (a) {
-                    let images = $("<div>" + $("#c-content").val() + "</div>").find('img').attr('src');
+                    let content = $("#c-content").val();
+                    let images = $("<div>" + $("#c-content").val() + "</div>").find('img');
                     if (images) {
-                        Fast.api.ajax({
-                            url: "cms/ajax/localize_image",
-                            data: {content: $("#c-content").val()}
-                        }, function (data, ret) {
-                            //替换内容
-                            console.log(data)
-                            $("#c-content").val(data)
-                        }, function (data, ret) {
-                            Toastr.error(ret);
-                        });
+                        let need_locate_num = 0;
+                        $.each(images,function (k,v) {
+                            if($(v).attr('src').indexOf('https://img2.99ku.vip') === -1){
+                                need_locate_num++;
+                                Fast.api.ajax({
+                                    url: "cms/ajax/localize_image",
+                                    data: {src: $(v).attr('src')}
+                                }, function (data, ret) {
+                                    //替换内容
+                                    content = content.replace($(v).attr('src'),data)
+                                    $("#c-content").val(content)
+                                }, function (data, ret) {
+                                    Toastr.error(ret);
+                                });
+                            }
+                        })
+                        if(need_locate_num === 0){
+                            Toastr.error("未找到需要本地化的图片");
+                        }
                     } else {
                         Toastr.error("未找到任何图片");
                     }
@@ -709,7 +719,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form', 'template'], function
                     let content = $content.val();
 
                     $.each(a_tags,function (k,v) {
-                        if($(v).attr('href').indexOf("w.99ku.vip") === -1){
+                        if($(v).attr('href').indexOf("www.99ku.vip") === -1){
                             //a标签href不包含99ku只保留a标签的文本
                             content = content.replace(v.outerHTML, $(v).html());
                         }

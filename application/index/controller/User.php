@@ -214,7 +214,7 @@ class User extends Frontend
     {
         //退出本站
         $this->auth->logout();
-        $this->success(__('Logout successful'), url('user/index'));
+        $this->success(__('Logout successful'), url('/'));
     }
 
     /**

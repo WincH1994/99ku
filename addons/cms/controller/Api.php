@@ -11,6 +11,7 @@ use think\Config;
 use think\Db;
 use think\Exception;
 use think\exception\PDOException;
+use function GuzzleHttp\Psr7\str;
 
 /**
  * Api接口控制器
@@ -34,6 +35,48 @@ class Api extends Base
         }
 
         return parent::_initialize();
+    }
+
+    /**
+     * 更新旧id
+     */
+    public function update_new_id()
+    {
+        $list = Archives::where(['old_id'=>0])->select();
+
+        foreach ($list as $item){
+            $archive = Archives::get(['old_id'=>$item['id']]);
+            if($archive['id']){
+                $max_id = DB::name('cms_archives')->max('id');
+                $next_id = $max_id + 1;
+                DB::execute("update fa_cms_archives set id = {$next_id} where id = {$item['id']}");
+
+                if($item['model_id'] == 1){
+                    DB::execute("update fa_cms_addonnews set id = {$next_id} where id = {$item['id']}");
+                }elseif($item['model_id'] == 4){
+                    DB::execute("update fa_cms_addondesign set id = {$next_id} where id = {$item['id']}");
+                }elseif($item['model_id'] == 5){
+                    DB::execute("update fa_cms_addontechnology set id = {$next_id} where id = {$item['id']}");
+                }elseif($item['model_id'] == 6){
+                    DB::execute("update fa_cms_addondownloadnew set id = {$next_id} where id = {$item['id']}");
+                }
+
+                $tags = DB::query("select * from fa_cms_tags_new where FIND_IN_SET('{$item['id']}',archives) ");
+                foreach ($tags as $tag){
+                    $ars = array_values(array_filter(explode(",",$tag['archives'])));
+                    foreach ($ars as $k => $ar){
+                        if($ar == $item['id']){
+                            $ars[$k] = strval($next_id);
+                        }
+                    }
+                    $ar_str = join(",",$ars);
+                    DB::execute("update fa_cms_tags_new set archives = '{$ar_str}' where id = {$tag['id']} ");
+
+                }
+            }
+        }
+        $this->success('新增成功', '', []);
+        return;
     }
 
     /**

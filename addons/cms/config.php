@@ -39,7 +39,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => '/uploads/20210301/c660112c4bdc398ac24fbedb447fdb44.png',
+    'value' => '/uploads/20210419/c660112c4bdc398ac24fbedb447fdb44.png',
     'rule' => 'required',
     'msg' => '',
     'tip' => '',
@@ -144,7 +144,7 @@ return array (
     'content' => 
     array (
     ),
-    'value' => '/assets/addons/cms/img/qrcode.png',
+    'value' => '/uploads/20210419/e345604700a71ef468282d296d4100ba.png',
     'rule' => '',
     'msg' => '',
     'tip' => '打赏图片，请使用300*300的图片',
@@ -348,7 +348,7 @@ return array (
       'diyform/index' => '/d/[:diyname]',
       'special/index' => '/special/[:diyname]',
       'archives/index' => '/[:catename]/[:id]$',
-      'channel/index' => '/c/[:diyname]$',
+      'channel/index' => '/[:diyname]$',
       'user/index' => '/u/[:id]',
       'diytags/index' => '/[:catename]/[:diyname]/[:tagid]$',
     ),

@@ -7,6 +7,7 @@ use addons\cms\library\SensitiveHelper;
 use addons\cms\library\Service;
 use app\common\controller\Backend;
 use fast\Http;
+use fast\Random;
 
 /**
  * Ajax
@@ -148,52 +149,43 @@ class Ajax extends Backend
      */
     public function localize_image()
     {
-        $txt = $this->request->post("content");
-//        $cdn_prefix = 'loc-img.99ku.vip';
-        $cdn_prefix = 'https://img2.99ku.vip/';
+        $url = $this->request->post("src");
+        //$cdn_prefix = 'http://loc-img.99ku.vip';
+        $cdn_prefix = 'https://img2.99ku.vip';
         //$keywords = $_SERVER['SERVER_NAME'];
-        $matches = array();
-        preg_match_all('/<img.+?src=(.+?)\s/is',$txt,$matches);
-        if(!is_array($matches)) return $txt;
 
-        foreach ($matches[1] as $k => $v)
+        if(strpos($url,$cdn_prefix) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
         {
-            $url = trim($v,"\"'");
-            $ext = '';
+            stream_context_set_default( [
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+            if(($headers=get_headers($url, 1))!==false){
+                // 获取响应的类型
+                $type = $headers['Content-Type'];
+            }
+            $ext = str_replace("image/","",$type);
 
-            if(strpos($url,$cdn_prefix) === false && (substr($url,0,8) == 'https://' || substr($url,0,7) == 'http://')) //非本站地址,需要下载图片
-            {
-                stream_context_set_default( [
-                    'ssl' => [
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                    ],
-                ]);
-                if(($headers=get_headers($url, 1))!==false){
-                    // 获取响应的类型
-                    $type = $headers['Content-Type'];
+            $data = Http::get($url);
+
+            if($data){
+                //$file_path = 'H:/WincH/upload/img/ku/uploads/' . date('Ymd').'/';
+                $file_path = '/data2/upload/img/ku/uploads/' . date('Ymd').'/';
+                if (!is_dir($file_path)) {
+                    @mkdir($file_path, 0755, true);
                 }
-                $ext = str_replace("image/","",$type);
-                $data = Http::get($url);
-                if($data){
-//                    $file_path = 'H:/WincH/upload/img/ku/uploads/' . date('Ymd').'/';
-                    $file_path = '/data2/upload/img/ku/uploads/' . date('Ymd').'/';
-                    if (!is_dir($file_path)) {
-                        @mkdir($file_path, 0755, true);
-                    }
-                    $file_path =  date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
-                    $real_file = '/data2/upload/img/ku/uploads/' . $file_path;
-//                    $real_file = 'H:/WincH/upload/img/ku/uploads/' . date('Ymd').'/'.date('His'). rand(1,100) . $k . '.' . $ext;
-                    $file = '/ku/uploads/' .$file_path;
-                    $path = file_put_contents($real_file,$data);
-                    if($path){
-                        $file = substr($file,1,strlen($txt));
-                        $file = $cdn_prefix.$file;
-                        $txt = str_replace($v,'"' . $file . '"',$txt);
-                    }
+                $file_path =  date('Ymd').'/'.date('His'). Random::uuid() . '.' . $ext;
+                $real_file = '/data2/upload/img/ku/uploads/' . $file_path;
+                //$real_file = 'H:/WincH/upload/img/ku/uploads/' . $file_path;
+                $file = '/ku/uploads/' .$file_path;
+                $path = file_put_contents($real_file,$data);
+                if($path){
+                    $file = $cdn_prefix.$file;
                 }
             }
         }
-        $this->success("图片本地化成功", null, $txt);
+        $this->success("图片本地化成功", null, $file);
     }
 }

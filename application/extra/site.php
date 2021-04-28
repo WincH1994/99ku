@@ -4,23 +4,23 @@ return array (
   'name' => '99设计资源库',
   'beian' => '',
   'cdnurl' => '',
-  'version' => '1.0.1',
+  'version' => '1.0.2',
   'timezone' => 'Asia/Shanghai',
   'forbiddenip' => '',
-  'languages' => 
+  'languages' =>
   array (
     'backend' => 'zh-cn',
     'frontend' => 'zh-cn',
   ),
   'fixedpage' => 'dashboard',
-  'categorytype' => 
+  'categorytype' =>
   array (
     'default' => 'Default',
     'page' => 'Page',
     'article' => 'Article',
     'test' => 'Test',
   ),
-  'configgroup' => 
+  'configgroup' =>
   array (
     'basic' => 'Basic',
     'email' => 'Email',

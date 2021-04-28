@@ -71,6 +71,7 @@ class Archives extends Model
                         $catename = Channel::where('id',$diytag['channel_id'])->select();
                         $catename = $catename[0]['diyname'];
                     }
+
                     $replace = addon_url('cms/diytags/index', [':id' => $data['id'], ':catename'=>$catename, ':diyname'=>$diyname, ':tagid'=>$tagid], static::$config['urlsuffix']);
                     $replace = "<a href='{$replace}' target='_blank' style='color: #0070C0;text-decoration: underline;'>{$diytag['name']}</a>";
                     $data['content'] = str_replace($diytag['name'],$replace,$data['content']);
@@ -247,7 +248,11 @@ class Archives extends Model
         $diyname = isset($data['diyname']) && $data['diyname'] ? $data['diyname'] : $data['id'];
         $catename = isset($this->channel) && $this->channel ? $this->channel->diyname : 'all';
         if($catename != 'all'){
-            $catename = Channel::get($this->channel->parent_id)['diyname'];
+            if($this->channel->parent_id){
+                $catename = Channel::get($this->channel->parent_id)['diyname'];
+            }else{
+                $catename = $this->channel->data['diyname'];
+            }
         }
         $data['id'] = $data['old_id']?:$data['id'];
         return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':catename' => $catename], 'html');
@@ -258,8 +263,16 @@ class Archives extends Model
     {
         $diyname = isset($data['diyname']) && $data['diyname'] ? $data['diyname'] : $data['id'];
         $catename = isset($this->channel) && $this->channel ? $this->channel->diyname : 'all';
-        $cateid = isset($this->channel) && $this->channel ? $this->channel->id : 0;
-        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix'], true);
+        if($catename != 'all'){
+            if($this->channel->parent_id){
+                $catename = Channel::get($this->channel->parent_id)['diyname'];
+            }else{
+                $catename = $this->channel->data['diyname'];
+            }
+        }
+        $data['id'] = $data['old_id']?:$data['id'];
+        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':catename' => $catename], 'html', true);
+//        return addon_url('cms/archives/index', [':id' => $data['id'], ':diyname' => $diyname, ':channel' => $data['channel_id'], ':catename' => $catename, ':cateid' => $cateid], static::$config['urlsuffix'], true);
     }
 
     public function getLikeratioAttr($value, $data)
