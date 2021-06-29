@@ -4,6 +4,7 @@ namespace addons\cms\model;
 
 use think\Cache;
 use think\Collection;
+use think\Config;
 use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -215,6 +216,12 @@ class Archives extends Model
             } elseif (is_array($item) && isset($item['name']) && isset($item['url']) && $item['url']) {
                 $result = $item;
                 $result['title'] = isset($titleArr[$item['name']]) ? $titleArr[$item['name']] : '其它';
+                if(strpos($result['url'],'/uploads') !== false){
+                    //资源下载地址如果是上传的增加cdn前缀
+                    $upload = Config::get('upload');
+                    $upload['cdnurl'] = $upload['cdnurl'] ? $upload['cdnurl'] : cdnurl('', true);
+                    $result['url'] = $upload['cdnurl'].$result['url'];
+                }
                 $list[] = $result;
             }
         }
